@@ -53,6 +53,8 @@ function init() {
 
 function showQuestion() {
 
+    
+
     if (currentQuestion >= questions.length) {
         //endscreen
         document.getElementById('endscreen').style = '';
@@ -99,17 +101,19 @@ function answer(selection) {
     }
     
     document.getElementById('next-button').disabled = false;
-
+    disableButtons();
 
 }
 
 function nextQuestion() {
     currentQuestion++;
-
+    
     showQuestion();
 
     document.getElementById('next-button').disabled = true;
+    
     resetAnswerButtons();
+    enableButtons();
 
 }
 
@@ -134,4 +138,20 @@ function restartGame() {
     currentQuestion = 0;
     goodAnswer = 0;
     init();
+}
+
+function enableButtons() {
+
+    document.getElementById('answer1').style.pointerEvents = 'auto';
+    document.getElementById('answer2').style.pointerEvents = 'auto';
+    document.getElementById('answer3').style.pointerEvents = 'auto';
+    document.getElementById('answer4').style.pointerEvents = 'auto';
+}
+
+function disableButtons() {
+
+    document.getElementById('answer1').style.pointerEvents = 'none';
+    document.getElementById('answer2').style.pointerEvents = 'none';
+    document.getElementById('answer3').style.pointerEvents = 'none';
+    document.getElementById('answer4').style.pointerEvents = 'none';
 }
