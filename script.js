@@ -53,37 +53,17 @@ function init() {
 
 function showQuestion() {
 
-    
-
-    if (currentQuestion >= questions.length) {
-        //endscreen
-        document.getElementById('endscreen').style = '';
-        document.getElementById('questionBody').style = 'display: none';
-        document.getElementById('goodanswersEndscreen').innerHTML = goodAnswer;
-        document.getElementById('fromAnswersEndscreen').innerHTML = questions.length;
-        document.getElementById('imgonscreen').src = 'img/win.png';
-
+    if (gameisOver()) {
+        showEndscrren();
     }
     else {
-        // show question
-        let percent = (currentQuestion + 1) / questions.length;
-        percent = Math.round(percent * 100);
-
-        document.getElementById('progress_bar').innerHTML = `${percent} %`;
-        document.getElementById('progress_bar').style = `width: ${percent}%`;
-
-
-
-
-        let question = questions[currentQuestion];
-
-        document.getElementById('currentQuestion').innerHTML = currentQuestion + 1;
-        document.getElementById('questiontext').innerHTML = question['question'];
-        document.getElementById('answer_1').innerHTML = question['answer_1'];
-        document.getElementById('answer_2').innerHTML = question['answer_2'];
-        document.getElementById('answer_3').innerHTML = question['answer_3'];
-        document.getElementById('answer_4').innerHTML = question['answer_4'];
+        updateProgressbar();
+        showNextQustion();
     }
+}
+
+function gameisOver() {
+    return currentQuestion >= questions.length;
 }
 
 function answer(selection) {
@@ -99,7 +79,7 @@ function answer(selection) {
         document.getElementById(selection).parentNode.classList.add('bg-danger');
         Audio_fail.play();
     }
-    
+
     document.getElementById('next-button').disabled = false;
     disableButtons();
 
@@ -107,11 +87,11 @@ function answer(selection) {
 
 function nextQuestion() {
     currentQuestion++;
-    
+
     showQuestion();
 
     document.getElementById('next-button').disabled = true;
-    
+
     resetAnswerButtons();
     enableButtons();
 
@@ -154,4 +134,36 @@ function disableButtons() {
     document.getElementById('answer2').style.pointerEvents = 'none';
     document.getElementById('answer3').style.pointerEvents = 'none';
     document.getElementById('answer4').style.pointerEvents = 'none';
+}
+
+function showEndscrren() {
+
+    document.getElementById('endscreen').style = '';
+    document.getElementById('questionBody').style = 'display: none';
+    document.getElementById('goodanswersEndscreen').innerHTML = goodAnswer;
+    document.getElementById('fromAnswersEndscreen').innerHTML = questions.length;
+    document.getElementById('imgonscreen').src = 'img/win.png';
+}
+
+function showNextQustion() {
+
+    
+
+    let question = questions[currentQuestion];
+    document.getElementById('currentQuestion').innerHTML = currentQuestion + 1;
+    document.getElementById('questiontext').innerHTML = question['question'];
+    document.getElementById('answer_1').innerHTML = question['answer_1'];
+    document.getElementById('answer_2').innerHTML = question['answer_2'];
+    document.getElementById('answer_3').innerHTML = question['answer_3'];
+    document.getElementById('answer_4').innerHTML = question['answer_4'];
+
+}
+
+function updateProgressbar() {
+
+    let percent = (currentQuestion + 1) / questions.length;
+    percent = Math.round(percent * 100);
+    document.getElementById('progress_bar').innerHTML = `${percent} %`;
+    document.getElementById('progress_bar').style = `width: ${percent}%`;
+
 }
