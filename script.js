@@ -1,47 +1,63 @@
 let questions = [
 
     {
-        "question": "Wer hat HTML erfunden?",
-        "answer_1": "Robbie Williams",
-        "answer_2": "Lady Gaga",
-        "answer_3": "Tim Berners-Lee",
-        "answer_4": "Justin Bieber",
-        "right_answer": 3
+        "question": "Wi viele Speler spielt auf einmal in einer Wettkampf?",
+        "answer_1": "3",
+        "answer_2": "4",
+        "answer_3": "5",
+        "answer_4": "6",
+        "right_answer": 3,
+        "img":  "img/q1.jpg"
     },
 
     {
-        "question": "Was bedeutet das lateinische “carpe diem”?",
-        "answer_1": "Genieße das Leben",
-        "answer_2": "Nutze den Tag",
-        "answer_3": "Dein Tag wird toll werden",
-        "answer_4": "Man sieht sich immer zweimal im Leben",
-        "right_answer": 2
+        "question": "Auf welche Karte spielt kann man die Geisel retten?",
+        "answer_1": "Dust2",
+        "answer_2": "Office",
+        "answer_3": "Nuke",
+        "answer_4": "Inferno",
+        "right_answer": 2,
+        "img":  "img/q2.png"
     },
 
     {
-        "question": "Welcher Pilz ist einer der giftigsten der Welt?",
-        "answer_1": "Der Fliegenpilz",
-        "answer_2": "Der Grüne Knollenblätterpilz",
-        "answer_3": "Der Gemeine Kartoffelbovist",
-        "answer_4": "Der Satansröhrling",
-        "right_answer": 2
+        "question": "Welcher Taktik ist die belibste von Russischen Spielern?",
+        "answer_1": "Only Pistol!",
+        "answer_2": "Rush B!",
+        "answer_3": "Warten 30 sec am Spawn.",
+        "answer_4": "Rush A!",
+        "right_answer": 2,
+        "img":  "img/q3.png"
     },
 
     {
-        "question": "Welche Gürtelfarbe existiert nicht im Kampfsport Karate?",
-        "answer_1": "Schwarz",
-        "answer_2": "Weiß",
-        "answer_3": "Braun",
-        "answer_4": "Rot",
-        "right_answer": 4
+        "question": "Wie viele Kugel passt in der Magazine ven P90 rein?",
+        "answer_1": "120",
+        "answer_2": "30",
+        "answer_3": "25",
+        "answer_4": "50",
+        "right_answer": 4,
+        "img":  "img/q4.jpg"
+    },
+
+    {
+        "question": "Welche ist der stärkste Waffe in der Liste?",
+        "answer_1": "AWP",
+        "answer_2": "Negev",
+        "answer_3": "Desert Eagle",
+        "answer_4": "Mac",
+        "right_answer": 1,
+        "img":  "img/q5.jpg"
     }
 ];
 
 let currentQuestion = 0;
 let goodAnswer = 0;
-let Audio_success = new Audio('sound/succes.mp3');
-let Audio_fail = new Audio('sound/loose.mp3');
-
+let Audio_success = new Audio('sound/good answer.mp3');
+let Audio_fail = new Audio('sound/bad answer.mp3');
+let Audio_Next_Question = new Audio('sound/click.mp3')
+let Audio_Win = new Audio('sound/win.mp3')
+let Audio_Loose = new Audio('sound/loose.mp3')
 
 function init() {
     document.getElementById('allQuestion').innerHTML = questions.length;
@@ -80,14 +96,21 @@ function answer(selection) {
         Audio_fail.play();
     }
 
-    document.getElementById('next-button').disabled = false;
+    setTimeout(showButton, 2200);
     disableButtons();
 
 }
 
+function showButton() {
+    document.getElementById('next-button').disabled = false;
+
+}
+
+
+
 function nextQuestion() {
     currentQuestion++;
-
+    Audio_Next_Question.play();
     showQuestion();
 
     document.getElementById('next-button').disabled = true;
@@ -142,7 +165,20 @@ function showEndscrren() {
     document.getElementById('questionBody').style = 'display: none';
     document.getElementById('goodanswersEndscreen').innerHTML = goodAnswer;
     document.getElementById('fromAnswersEndscreen').innerHTML = questions.length;
-    document.getElementById('imgonscreen').src = 'img/win.png';
+    
+    if (goodAnswer <= 3) {
+        document.getElementById('resultLevel').innerHTML = "Noob! Leider kennst du dich mit CS:GO nicht so gut aus! <br> Versuche es noch einmal!";
+        document.getElementById('imgonscreen').src = 'img/looser.jpg';
+        Audio_Loose.play();
+    }
+
+     if (goodAnswer > 3) {
+        document.getElementById('resultLevel').innerHTML = "Wow! Du bist eine richtige CS:GO fun!";
+        document.getElementById('imgonscreen').src = 'img/winner1.jpg';
+        Audio_Win.play();
+    }
+
+
 }
 
 function showNextQustion() {
@@ -153,6 +189,7 @@ function showNextQustion() {
     document.getElementById('currentQuestion').innerHTML = currentQuestion + 1;
     document.getElementById('questiontext').innerHTML = question['question'];
     document.getElementById('answer_1').innerHTML = question['answer_1'];
+    document.getElementById('imgonscreen').src = question['img'];
     document.getElementById('answer_2').innerHTML = question['answer_2'];
     document.getElementById('answer_3').innerHTML = question['answer_3'];
     document.getElementById('answer_4').innerHTML = question['answer_4'];
